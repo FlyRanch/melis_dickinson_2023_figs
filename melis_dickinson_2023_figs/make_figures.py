@@ -537,7 +537,7 @@ class FigureGen():
         X_phi = self.LegendrePolynomials(100,self.N_pol_phi,3)
         X_xi = self.LegendrePolynomials(100,self.N_pol_xi,3)
         line_thck = 1.2
-        c_gray = (0.5,0.5,0.5)
+        c_gray = 'gray'
 
         xgrid = np.linspace(0.0,1.0,50)
         ygrid = np.linspace(0.0,1.0,50)
