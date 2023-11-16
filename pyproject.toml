@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "melis-dickinson-2023-figs"
+name = "wing-hinge-cnn"
 version = "0.1.0"
-description = "Creates figures from Melis and Dickinson 2023."
+description = "Wing hinge CNN for  Melis and Dickinson 2023."
 license = "MIT"
 authors = ["Johan Melis <jmelis@caltech.edu>"]
 readme = "README.md"
