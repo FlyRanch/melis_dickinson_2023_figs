@@ -1,8 +1,8 @@
 
 ![header](images/wing_hinge_cnn_header.png)
 
-Software and Jupyter notebook for wing hinge CNN model for Melis and Dickinson
-2023. 
+Software and Jupyter notebook for wing hinge CNN model for Melis, Siwanowicz,
+and Dickinson 2023.
 
 ### Installation
 Download source and cd into source directory. Then to install using pip run 
