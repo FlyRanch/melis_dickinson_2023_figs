@@ -489,6 +489,33 @@ class FigureGen():
         self.decoder_network.load_weights(weight_file_3)
         self.decoder_network.summary()
 
+	def train_network(self,N_filters,N_latent,weights_fldr_in, save_weights=False):
+		self.network, self.encoder_network, self.decoder_network = self.build_network(N_filters,N_latent)
+		self.network.summary()
+		self.encoder_network.summary()
+		self.decoder_network.summary()
+		N_epochs = 1000
+		lr = 1.0e-4
+		decay = 1.0e-7
+		batch_size = 100
+		self.network.compile(loss='mse',optimizer=optimizers.Adam(lr=lr,decay=decay),metrics='mse')
+		history = self.network.fit(self.X_train,self.Y_train,epochs=N_epochs,shuffle=True,batch_size=batch_size,validation_data=(self.X_test,self.Y_test),verbose=1)
+
+        if save_weights:
+            weight_file = weights_fldr / 'muscle_wing_weights_new.h5'
+            weight_file_2 = weights_fldr / 'muscle_encoder_weights_new.h5'
+            weight_file_3 = weights_fldr / 'wingkin_decoder_weights_new.h5'
+            self.network.save_weights(weight_file)
+            self.encoder_network.save_weights(weight_file_2)
+            self.decoder_network.save_weights(weight_file_3)
+		
+		# Plot training and validation history:
+		fig, ax = plt.subplots()
+		t_epoch = np.arange(1,N_epochs+1)
+		ax.plot(t_epoch,np.log10(history.history['loss']),color='b')
+		ax.plot(t_epoch,np.log10(history.history['val_loss']),color='r')
+        return history.history
+
     def muscle_pca_plot(self):
 
         n_comp = 13
