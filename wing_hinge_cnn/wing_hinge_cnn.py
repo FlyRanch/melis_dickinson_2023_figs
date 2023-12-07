@@ -61,7 +61,7 @@ from keras import backend as K
 
 import seaborn as sns;
 
-class FigureGen():
+class WingHingeCNN():
 
     def __init__(self):
         self.dt = 1.0/15000.0
@@ -84,7 +84,7 @@ class FigureGen():
         self.data_file = h5py.File(file_name,'r')
         self.data_keys = list(self.data_file.keys())
         self.N_files = len(self.data_keys)
-        print('Number of files: {self.N_files}')
+        print(f'Number of files: {self.N_files}')
         # data lists:
         self.a_theta_L_mov = []
         self.a_eta_L_mov = []
@@ -489,17 +489,17 @@ class FigureGen():
         self.decoder_network.load_weights(weight_file_3)
         self.decoder_network.summary()
 
-	def train_network(self,N_filters,N_latent,weights_fldr_in, save_weights=False):
-		self.network, self.encoder_network, self.decoder_network = self.build_network(N_filters,N_latent)
-		self.network.summary()
-		self.encoder_network.summary()
-		self.decoder_network.summary()
-		N_epochs = 1000
-		lr = 1.0e-4
-		decay = 1.0e-7
-		batch_size = 100
-		self.network.compile(loss='mse',optimizer=optimizers.Adam(lr=lr,decay=decay),metrics='mse')
-		history = self.network.fit(self.X_train,self.Y_train,epochs=N_epochs,shuffle=True,batch_size=batch_size,validation_data=(self.X_test,self.Y_test),verbose=1)
+    def train_network(self,N_filters,N_latent,weights_fldr_in, save_weights=False):
+        self.network, self.encoder_network, self.decoder_network = self.build_network(N_filters,N_latent)
+        self.network.summary()
+        self.encoder_network.summary()
+        self.decoder_network.summary()
+        N_epochs = 1000
+        lr = 1.0e-4
+        decay = 1.0e-7
+        batch_size = 100
+        self.network.compile(loss='mse',optimizer=optimizers.Adam(lr=lr,decay=decay),metrics='mse')
+        history = self.network.fit(self.X_train,self.Y_train,epochs=N_epochs,shuffle=True,batch_size=batch_size,validation_data=(self.X_test,self.Y_test),verbose=1)
 
         if save_weights:
             weight_file = weights_fldr / 'muscle_wing_weights_new.h5'
@@ -508,12 +508,12 @@ class FigureGen():
             self.network.save_weights(weight_file)
             self.encoder_network.save_weights(weight_file_2)
             self.decoder_network.save_weights(weight_file_3)
-		
-		# Plot training and validation history:
-		fig, ax = plt.subplots()
-		t_epoch = np.arange(1,N_epochs+1)
-		ax.plot(t_epoch,np.log10(history.history['loss']),color='b')
-		ax.plot(t_epoch,np.log10(history.history['val_loss']),color='r')
+        
+        # Plot training and validation history:
+        fig, ax = plt.subplots()
+        t_epoch = np.arange(1,N_epochs+1)
+        ax.plot(t_epoch,np.log10(history.history['loss']),color='b')
+        ax.plot(t_epoch,np.log10(history.history['val_loss']),color='r')
         return history.history
 
     def muscle_pca_plot(self):

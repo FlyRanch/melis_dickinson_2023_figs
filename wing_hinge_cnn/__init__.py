@@ -1,3 +1,3 @@
-from . import make_figures
+from .wing_hinge_cnn import WingHingeCNN 
 
 
