@@ -1,15 +1,16 @@
 import pickle
 import pathlib
+import numpy as np
 import matplotlib.pyplot as plt
 from wing_hinge_cnn import WingHingeCNN
 
-dataset_dir = pathlib.Path().cwd() / 'dataset_melis_et_al_2023.h5'
+n_filters = 9
+curr_dir = pathlib.Path().cwd()
+dataset_dir = curr_dir / 'main_muscle_and_wing_data.h5'
 
 net = WingHingeCNN()
 net.load_dataset(dataset_dir)
-res = net.train_network()
+outliers = -np.ones((1,1)) 
+net.create_dataset(outliers)
+net.train_network(n_filters, curr_dir, save_history=True)
 
-with open('history.pkl', 'wb') as f:
-    pickle.dump(res, f)
-
-plt.show()

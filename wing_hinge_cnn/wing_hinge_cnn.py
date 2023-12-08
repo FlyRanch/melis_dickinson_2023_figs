@@ -1,3 +1,4 @@
+import pickle
 import numpy as np
 import scipy.io
 import numpy.matlib
@@ -67,12 +68,12 @@ class WingHingeCNN():
         self.dt = 1.0/15000.0
         self.N_frames = 16375
         self.N_pol_theta = 20
-        self.N_pol_eta      = 24
-        self.N_pol_phi      = 16
-        self.N_pol_xi      = 20
-        self.N_const      = 3
+        self.N_pol_eta = 24
+        self.N_pol_phi = 16
+        self.N_pol_xi = 20
+        self.N_const = 3
         self.muscle_names = ['b1','b2','b3','i1','i2','iii1','iii24','iii3','hg1','hg2','hg3','hg4','freq']
-        self.N_window      = 9
+        self.N_window = 9
         self.g = 9800.0
         self.R_fly = 2.7
         self.f = 200.0
@@ -457,6 +458,7 @@ class WingHingeCNN():
             fit_out[j,:] = ynew
         return fit_out
 
+
     def build_network(self,N_filters):
         l1_norm = 0.01
         l2_norm = 0.01
@@ -489,12 +491,13 @@ class WingHingeCNN():
         self.decoder_network.load_weights(weight_file_3)
         self.decoder_network.summary()
 
-    def train_network(self,N_filters,N_latent,weights_fldr_in, save_weights=False):
-        self.network, self.encoder_network, self.decoder_network = self.build_network(N_filters,N_latent)
+    def train_network(self, N_filters, weights_fldr_in, save_weights=False, save_history=False):
+        self.network, self.encoder_network, self.decoder_network = self.build_network(N_filters)
         self.network.summary()
         self.encoder_network.summary()
         self.decoder_network.summary()
         N_epochs = 1000
+        #N_epochs = 2 
         lr = 1.0e-4
         decay = 1.0e-7
         batch_size = 100
@@ -508,13 +511,16 @@ class WingHingeCNN():
             self.network.save_weights(weight_file)
             self.encoder_network.save_weights(weight_file_2)
             self.decoder_network.save_weights(weight_file_3)
-        
+
+        with open('history.pkl', 'wb') as f:
+            pickle.dump(history.history, f)
+
         # Plot training and validation history:
         fig, ax = plt.subplots()
         t_epoch = np.arange(1,N_epochs+1)
         ax.plot(t_epoch,np.log10(history.history['loss']),color='b')
         ax.plot(t_epoch,np.log10(history.history['val_loss']),color='r')
-        return history.history
+        plt.show()
 
     def muscle_pca_plot(self):
 
