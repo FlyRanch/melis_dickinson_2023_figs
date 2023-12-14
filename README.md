@@ -47,9 +47,11 @@ jupyter notebook generate_figures.ipynb
 
 ### Training the wing hinge CNN 
 An example script, train_wing_hinge_cnn.py, demonstrating how the neural
-network is trained is provided in the 'examples' subdirectory.  To run the
-example, download the required dataset, main_muscle_and_wing_data.h5, from
-CaltechDATA [here](https://data.caltech.edu/records/aypcy-ck464) and place the
-file the 'examples' subdirectory. Then run train_wing_hinge_cnn.py.   
+network is trained is provided in the 'examples' subdirectory.  
+
+To run the example, download the required dataset,
+main_muscle_and_wing_data.h5, from CaltechDATA
+[here](https://data.caltech.edu/records/aypcy-ck464) and place the file the
+'examples' subdirectory. Then run train_wing_hinge_cnn.py.   
 
 
